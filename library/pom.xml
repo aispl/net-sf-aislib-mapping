@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <parent>
+    <groupId>net.sf.aislib.tools.mapping</groupId>
+    <artifactId>mapping-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>net.sf.aislib.tools.mapping</groupId>
+  <artifactId>library</artifactId>
+  <packaging>jar</packaging>
+  <name>Library</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>jdom</groupId>
+      <artifactId>jdom</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.ant</groupId>
+      <artifactId>ant</artifactId>
+      <version>1.7.0</version>
+    </dependency>
+  </dependencies>
+
+</project>
