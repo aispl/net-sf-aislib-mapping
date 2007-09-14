@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>net.sf.aislib.tools.mapping</groupId>
+  <artifactId>mapping-parent</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>Simple OR java code generator</name>
+
+  <organization>
+    <name>AIS.PL</name>
+    <url>http://www.ais.pl</url>
+  </organization>
+
+  <scm>
+    <connection>
+      scm:svn:https://aislib.svn.sourceforge.net/svnroot/aislib/Java/tools/mapping/trunk/
+    </connection>
+  </scm>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-release-plugin</artifactId>
+          <configuration>
+            <tagBase>
+              scm:svn:https://aislib.svn.sourceforge.net/svnroot/aislib/Java/tools/mapping/tags/
+            </tagBase>
+          </configuration>
+        </plugin>
+        <plugin>
+          <!--  deploying also to m1 repository -->
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.3</version>
+          <executions>
+            <execution>
+              <phase>deploy</phase>
+              <goals>
+                <goal>deploy</goal>
+              </goals>
+              <configuration>
+                <altDeploymentRepository>
+                  aislib-sf-m1::legacy::scp://shell.sf.net/home/groups/a/ai/aislib/htdocs/repos/m1
+                </altDeploymentRepository>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>net.sf.aislib.tools.mapping</groupId>
+        <artifactId>library</artifactId>
+        <version>${pom.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <modules>
+    <module>library</module>
+    <module>plugin-m1</module>
+    <module>plugin-m2</module>
+  </modules>
+
+  <developers>
+    <developer>
+      <name>Andrzej Luszczyk</name>
+    </developer>
+    <developer>
+      <name>Tomasz Pik</name>
+    </developer>
+    <developer>
+      <name>Anna Grzebieniak</name>
+    </developer>
+    <developer>
+      <name>Pawel Chmielewski</name>
+    </developer>
+    <developer>
+      <name>Michal Jastak</name>
+    </developer>
+    <developer>
+      <name>Milosz Tylenda</name>
+    </developer>
+    <developer>
+      <name>Wojciech Swiatek</name>
+    </developer>
+  </developers>
+
+  <distributionManagement>
+    <repository>
+      <id>aislib-sf-prod</id>
+      <url>
+        scp://shell.sf.net/home/groups/a/ai/aislib/htdocs/repos/prod
+      </url>
+    </repository>
+    <snapshotRepository>
+      <id>aislib-sf-dev</id>
+      <url>
+        scp://shell.sf.net/home/groups/a/ai/aislib/htdocs/repos/dev
+      </url>
+    </snapshotRepository>
+  </distributionManagement>
+</project>
