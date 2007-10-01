@@ -326,7 +326,7 @@ public class DatabaseGenerator extends Generator {
       JavaMethod javaMethod = aggregate.getJavaMethod();
       String methodName     = javaMethod.getName();
       List javaParamList    = javaMethod.getJavaParamList();
-      writer.write(createOperationMethodBody(aggregate.createReturnType(java5Compatible), "aggregate", className,
+      writer.write(createOperationMethodBody(aggregate.createReturnType(useGenerics), "aggregate", className,
             methodName, javaParamList, aggregate.createReturnForJavadoc()));
       aggregateCount++;
     }
@@ -364,7 +364,7 @@ public class DatabaseGenerator extends Generator {
       JavaMethod javaMethod = select.getJavaMethod();
       String methodName     = javaMethod.getName();
       List javaParamList    = javaMethod.getJavaParamList();
-      writer.write(createOperationMethodBody(select.createReturnType(javaClass, java5Compatible), "select", className, methodName,
+      writer.write(createOperationMethodBody(select.createReturnType(javaClass, useGenerics), "select", className, methodName,
             javaParamList, select.createReturnForJavadoc(javaClass)));
       selectCount++;
     }
@@ -463,7 +463,7 @@ public class DatabaseGenerator extends Generator {
       writer.write("import java.util.Iterator;\n");
       writer.write("import java.util.List;\n");
       writer.write("import java.util.Map;\n\n");
-      if (aislibDependent.booleanValue()) {
+      if (aislibDependent) {
         writer.write("import pl.aislib.fm.Database;\n\n");
         writer.write("import pl.aislib.fm.jdbc.Manager;\n\n");
       } else {
@@ -487,7 +487,7 @@ public class DatabaseGenerator extends Generator {
       writer.write(" * Application Database.\n");
       writer.write(" * @author DatabaseGenerator\n");
       writer.write(" */\n");
-      if (aislibDependent.booleanValue()) {
+      if (aislibDependent) {
         writer.write("public class " + className + " extends Database {\n\n");
         writer.write("  public " + className + "(Manager manager) {\n");
         writer.write("    super(manager);\n");

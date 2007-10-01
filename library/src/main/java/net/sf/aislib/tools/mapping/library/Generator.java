@@ -68,12 +68,12 @@ public abstract class Generator extends Task {
   /**
    * Switch for removing aislib dependency
    */
-  protected Boolean aislibDependent = new Boolean(true);
+  protected boolean aislibDependent = true;
 
   /**
    * If true, adds List<Object> for 'select' methods
    */
-  protected Boolean java5Compatible = new Boolean(false);
+  protected boolean useGenerics = false;
 
   // Public methods
 
@@ -147,19 +147,19 @@ public abstract class Generator extends Task {
    *
    * @param new aislibDependent value.
    */
-  public void setAislibDependent(Boolean aislibDependent) {
+  public void setAislibDependent(boolean aislibDependent) {
     this.aislibDependent = aislibDependent;
   }
 
   /**
-   * Sets the java5 switch.
+   * Turns if generated code should use generics.
    *
    * Defaults to "false".
    *
-   * @param new java5Compatible value.
+   * @param useGenerics value.
    */
-  public void setJava5Compatible(Boolean java5Compatible) {
-    this.java5Compatible = java5Compatible;
+  public void setUseGenerics(boolean useGenerics) {
+    this.useGenerics = useGenerics;
   }
 
 

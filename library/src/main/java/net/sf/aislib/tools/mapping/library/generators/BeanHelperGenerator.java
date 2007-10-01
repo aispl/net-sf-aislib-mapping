@@ -774,7 +774,7 @@ public class BeanHelperGenerator extends Generator {
       String methodName = javaMethod.getName();
       List javaParamList = javaMethod.getJavaParamList();
 
-      if (java5Compatible.booleanValue()) {
+      if (useGenerics) {
         writer.write("  public static List<" + javaClass.getName() + "> select" + Utils.capitalize(methodName) + "(");
       } else {
         writer.write("  public static List select" + Utils.capitalize(methodName) + "(");
@@ -782,7 +782,7 @@ public class BeanHelperGenerator extends Generator {
       writer.write(Utils.formatMethodArgs(javaParamList));
       writer.write("Connection con) throws SQLException {\n");
       writer.write("    SQLException sqlEx = null;\n");
-      if (java5Compatible.booleanValue()) {
+      if (useGenerics) {
         writer.write("    List<" + javaClass.getName() + "> result = new ArrayList<" + javaClass.getName() + ">();\n");
       } else {
         writer.write("    List result = new ArrayList();\n");

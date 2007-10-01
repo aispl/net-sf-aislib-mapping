@@ -432,7 +432,7 @@ public class Utils {
   public static String createPreparedStatement(String query) {
     String formattedQuery = equalLengthSplit(query);
     if (containsRawParam(query)) {
-      return "      PreparedStatement pstmt = EnhancedStatement.getInstance(con, " + formattedQuery + ");\n";
+      return "      EnhancedStatement pstmt = EnhancedStatement.getInstance(con, " + formattedQuery + ");\n";
     } else {
       return "      PreparedStatement pstmt = con.prepareStatement(" + formattedQuery + ");\n";
     }

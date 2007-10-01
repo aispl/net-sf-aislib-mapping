@@ -12,9 +12,9 @@ public class Select extends Operation {
     return multipleRows;
   }
 
-  public String createReturnType(JavaClass javaClass, Boolean java5Compatible) {
+  public String createReturnType(JavaClass javaClass, boolean useGenerics) {
     if (isMultipleRows()) {
-      if (java5Compatible.booleanValue()) {
+      if (useGenerics) {
         return "List<" + javaClass.getName() + ">";
       } else {
         return "List";

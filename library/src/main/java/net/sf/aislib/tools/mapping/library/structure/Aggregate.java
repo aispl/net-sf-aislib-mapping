@@ -12,9 +12,9 @@ public class Aggregate extends Operation {
     return multipleRows;
   }
 
-  public String createReturnType(Boolean java5Compatible) {
+  public String createReturnType(boolean useGenerics) {
     if (isMultipleRows()) {
-      if (java5Compatible.booleanValue()) {
+      if (useGenerics) {
         return "List<" + getJavaMethod().getReturnType() + ">";
       } else {
         return "List";
