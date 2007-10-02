@@ -487,6 +487,9 @@ public class DatabaseGenerator extends Generator {
       writer.write(" * Application Database.\n");
       writer.write(" * @author DatabaseGenerator\n");
       writer.write(" */\n");
+      if (useGenerics) {
+        writer.write("@SuppressWarnings(\"unchecked\")\n");
+      }
       if (aislibDependent) {
         writer.write("public class " + className + " extends Database {\n\n");
         writer.write("  public " + className + "(Manager manager) {\n");
