@@ -74,7 +74,7 @@ public abstract class Generator extends Task {
   /**
    * Subdirectory of row mappers.
    */
-  protected String rowMappersSubdir = "dao" + File.pathSeparator + "jdbc" + File.pathSeparator + "mappers";
+  protected String rowMappersSubdir = "dao" + File.separator + "jdbc" + File.separator + "mappers";
 
   /**
    * Switch for removing aislib dependency
