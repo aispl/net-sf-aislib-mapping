@@ -44,7 +44,7 @@
               </goals>
               <configuration>
                 <altDeploymentRepository>
-                  aislib-sf-m1::legacy::scp://shell.sf.net/home/groups/a/ai/aislib/htdocs/repos/m1
+                  aislib-sf-m1::legacy::scpexe://shell.sf.net/home/groups/a/ai/aislib/htdocs/repos/m1
                 </altDeploymentRepository>
               </configuration>
             </execution>
