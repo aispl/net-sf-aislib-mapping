@@ -13,6 +13,7 @@ import org.apache.tools.ant.Task;
 /**
  * @author Milosz Tylenda, AIS.PL
  * @author Wojciech Swiatek, AIS.PL
+ * @author Pawel Chmielewski, AIS.PL
  */
 public abstract class Generator extends Task {
 
@@ -64,6 +65,16 @@ public abstract class Generator extends Task {
    * Subdirectory of map handlers.
    */
   protected String mapHandlersSubdir = "handlers";
+
+  /**
+   * Subpackage of row mappers.
+   */
+  protected String rowMappersSubpackage = "dao.jdbc.mappers";
+
+  /**
+   * Subdirectory of row mappers.
+   */
+  protected String rowMappersSubdir = "dao" + File.pathSeparator + "jdbc" + File.pathSeparator + "mappers";
 
   /**
    * Switch for removing aislib dependency
@@ -162,8 +173,17 @@ public abstract class Generator extends Task {
     this.useGenerics = useGenerics;
   }
 
-
-
+  /**
+   * Set the subpackage of row mappers
+   *
+   * Defaults to "dao.jdbc.mappers"
+   *
+   * @param rowMappersSubpackage
+   */
+  public void setRowMappersSubpackage(String rowMappersSubpackage) {
+    this.rowMappersSubpackage = rowMappersSubpackage;
+    this.rowMappersSubdir = packageToDirectory(rowMappersSubpackage);
+  }
 
   /**
    *
