@@ -4,7 +4,7 @@
   <groupId>net.sf.aislib.tools.mapping</groupId>
   <artifactId>mapping-parent</artifactId>
   <packaging>pom</packaging>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.0-SNAPSHOT</version>
   <name>Simple OR java code generator</name>
   <url>http://aislib.sf.net/Java/tools/mapping</url>
 
@@ -35,33 +35,6 @@
       </plugin>
     </plugins>
   </build>
-
-  <profiles>
-    <profile>
-      <id>release</id>
-      <activation>
-        <property>
-          <name>performRelease</name>
-          <value>true</value>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-repository-plugin</artifactId>
-            <executions>
-              <execution>
-                <phase>deploy</phase>
-                <goals>
-                  <goal>bundle-create</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 
   <dependencyManagement>
     <dependencies>
