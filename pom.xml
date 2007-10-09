@@ -4,7 +4,7 @@
   <groupId>net.sf.aislib.tools.mapping</groupId>
   <artifactId>mapping-parent</artifactId>
   <packaging>pom</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <name>Simple OR java code generator</name>
 
   <organization>
@@ -13,7 +13,7 @@
   </organization>
 
   <scm>
-    <connection>scm:svn:https://aislib.svn.sourceforge.net/svnroot/aislib/Java/tools/mapping/trunk</connection>
+    <connection>scm:svn:https://aislib.svn.sourceforge.net/svnroot/aislib/Java/tools/mapping/tags/mapping-parent-1.0</connection>
   </scm>
 
   <licenses>
