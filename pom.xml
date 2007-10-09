@@ -13,7 +13,7 @@
   </organization>
 
   <scm>
-    <connection>scm:svn:scm:svn:https://aislib.svn.sourceforge.net/svnroot/aislib/Java/tools/mapping/trunk</connection>
+    <connection>scm:svn:https://aislib.svn.sourceforge.net/svnroot/aislib/Java/tools/mapping/trunk</connection>
   </scm>
 
   <licenses>
