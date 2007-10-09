@@ -13,7 +13,7 @@
   </organization>
 
   <scm>
-    <connection>scm:svn:scm:svn:https://aislib.svn.sourceforge.net/svnroot/aislib/Java/tools/mapping/tags/mapping-parent-1.0</connection>
+    <connection>scm:svn:scm:svn:https://aislib.svn.sourceforge.net/svnroot/aislib/Java/tools/mapping/trunk</connection>
   </scm>
 
   <licenses>
