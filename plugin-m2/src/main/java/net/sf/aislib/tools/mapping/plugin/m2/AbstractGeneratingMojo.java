@@ -69,6 +69,13 @@ public abstract class AbstractGeneratingMojo extends AbstractMojo {
    */
   private String objectsSubpackage = "objects";
 
+  /**
+   * Name of subpackage for spring row mappers classes.
+   *
+   * @parameter
+   */
+  private String rowMappersSubpackage = "dao.jdbc.mappers";
+
   public void execute() throws MojoExecutionException, MojoFailureException {
     try {
       if (!outputDirectory.exists()) {
@@ -88,6 +95,7 @@ public abstract class AbstractGeneratingMojo extends AbstractMojo {
       generator.setObjectsSubpackage(objectsSubpackage);
       generator.setMappingFile(mappingFile);
       generator.setPackageName(packageName);
+      generator.setRowMappersSubpackage(rowMappersSubpackage);
       generator.execute();
     } catch (Exception e) {
       throw new MojoExecutionException(e.getMessage(), e);
