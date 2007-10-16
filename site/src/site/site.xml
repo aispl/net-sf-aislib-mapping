@@ -1,0 +1,14 @@
+<project>
+  <body>
+    <links>
+      <item name="AIS.PL" href="http://www.ais.pl/"/>
+      <item name="SourceForge" href="http://sf.net"/>
+      <item name="Maven 2.x" href="http://maven.apache.org/"/>
+    </links>
+    <menu name="Quick Links">
+      <item name="Home" href="/index.html"/>
+    </menu>
+
+    <menu ref="reports"/>
+  </body>
+</project>

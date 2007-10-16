@@ -36,6 +36,18 @@
         </configuration>
       </plugin>
     </plugins>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>2.0-beta-5</version>
+          <configuration>
+            <stagingSiteURL>scp://shell.sf.net/home/groups/a/ai/aislib/htdocs/Java/tools/mapping/modules/${artifactId}-${version}</stagingSiteURL>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
 
   <dependencyManagement>
@@ -90,5 +102,11 @@
         scp://shell.sf.net/home/groups/a/ai/aislib/htdocs/repos/dev
       </url>
     </snapshotRepository>
+    <site>
+      <id>aislib-sf-site</id>
+      <url>
+        scp://use_site_stage-deploy__for_deploying
+      </url>
+    </site>
   </distributionManagement>
 </project>

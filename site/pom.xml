@@ -1,0 +1,50 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <groupId>net.sf.aislib.tools.mapping</groupId>
+    <artifactId>mapping-parent</artifactId>
+    <version>1.0</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>site</artifactId>
+  <packaging>pom</packaging>
+
+  <name>Simple OR java code generator</name>
+  <description>
+    Simple OR java code generator
+  </description>
+  <url>http://aislib.sf.net/Java/tools/mapping</url>
+
+  <licenses>
+    <license>
+      <url>http://software.ais.pl/licenses/aislib-LICENSE.txt</url>
+    </license>
+  </licenses>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-site-plugin</artifactId>
+        <configuration>
+          <generateReports>false</generateReports>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <reporting>
+    <excludeDefaults>true</excludeDefaults>
+  </reporting>
+
+  <distributionManagement>
+    <site>
+      <id>aislib-sf-site</id>
+      <url>
+        scp://shell.sf.net/home/groups/a/ai/aislib/htdocs/Java/tools/mapping/
+      </url>
+    </site>
+  </distributionManagement>
+
+</project>
