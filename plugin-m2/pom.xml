@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <groupId>net.sf.aislib.tools.mapping</groupId>
     <artifactId>mapping-parent</artifactId>
@@ -10,7 +12,9 @@
   <packaging>maven-plugin</packaging>
 
   <name>Simple OR java code generator - Maven2 plugin</name>
-  <description>Simple OR java code generator - Maven2 plugin</description>
+  <description>
+    Simple OR java code generator - Maven2 plugin
+  </description>
   <url>http://aislib.sf.net/Java/tools/mapping</url>
 
   <licenses>
@@ -35,4 +39,14 @@
       <version>2.0.6</version>
     </dependency>
   </dependencies>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <artifactId>maven-plugin-plugin</artifactId>
+        <version>2.3</version>
+      </plugin>
+    </plugins>
+  </reporting>
+
 </project>
