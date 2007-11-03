@@ -1,0 +1,174 @@
+<document>
+  <properties>
+    <title>Database Mapping Example</title>
+    <author>Milosz Tylenda</author>
+  </properties>
+
+  <body>
+   <section name="Example">
+     <p>
+      Here is a sample <code>structure.xml</code> file:
+      <pre>
+&lt;!DOCTYPE database PUBLIC "-//AIS.PL//DTD Mapping Description 0.4//EN"
+                          "http://www.ais.pl/dtds/mapping_0_4.dtd"&gt;
+
+&lt;database&gt;
+  &lt;structure name="AIS Project"&gt;
+    &lt;sql-table name="projects"/&gt;
+    &lt;java-class name="Project"/&gt;
+    &lt;fields&gt;
+      &lt;field name="id" notNull="true" primaryKey="true"&gt;
+        &lt;sql-field name="id" type="integer" default=""/&gt;
+        &lt;java-field name="id" default="" type="Integer"/&gt;
+      &lt;/field&gt;
+      &lt;field name="Client id" notNull="true" primaryKey="false"&gt;
+        &lt;sql-field name="client_id" type="integer" default=""/&gt;
+        &lt;java-field name="clientId" default="" type="Integer"/&gt;
+      &lt;/field&gt;
+      &lt;field name="Name" notNull="true" primaryKey="false"&gt;
+        &lt;sql-field name="project_name" type="varchar(20)" default=""/&gt;
+        &lt;java-field name="name" default="" type="String"/&gt;
+      &lt;/field&gt;
+    &lt;/fields&gt;
+    &lt;operations&gt;
+      &lt;select&gt;
+        &lt;sql-query order-by="project_name"/&gt;
+        &lt;java-method name="allProjects"/&gt;
+      &lt;/select&gt;
+      &lt;select&gt;
+        &lt;sql-query where="client_id = ?" order-by="project_name"/&gt;
+        &lt;java-method name="forClient"&gt;
+           &lt;java-param name="clientId" type="Integer"/&gt;
+        &lt;/java-method&gt;
+      &lt;/select&gt;
+      &lt;update&gt;
+        &lt;sql-query set="project_name=?" where="client_id = ?"/&gt;
+        &lt;java-method name="setNameForClient"&gt;
+           &lt;java-param name="name"     type="String"/&gt;
+           &lt;java-param name="clientId" type="Integer"/&gt;
+        &lt;/java-method&gt;
+      &lt;/update&gt;
+    &lt;/operations&gt;
+  &lt;/structure&gt;
+  
+  &lt;structure name="AIS Client"&gt;
+    &lt;sql-table name="clients"/&gt;
+    &lt;java-class name="Client"/&gt;
+    &lt;fields&gt;
+      &lt;field name="id" notNull="true" primaryKey="true"&gt;
+        &lt;sql-field name="id" type="integer" default=""/&gt;
+        &lt;java-field name="id" type="Integer" default=""/&gt;
+      &lt;/field&gt;
+      &lt;field name="Name" notNull="false" primaryKey="false"&gt;
+        &lt;sql-field name="name" type="varchar(128)" default=""/&gt;
+        &lt;java-field name="name" type="String" default=""/&gt;
+      &lt;/field&gt;
+    &lt;/fields&gt;
+    &lt;operations&gt;
+      &lt;call&gt;
+        &lt;sql-query body="{? = call process_client(?,?,?)}"/&gt;
+        &lt;java-method name="processClient"&gt;
+           &lt;java-param name="adjustment" type="Integer"/&gt;
+        &lt;/java-method&gt;
+        &lt;call-params&gt;
+          &lt;call-param accessType="out" type="String"/&gt;
+          &lt;call-param accessType="in"  fieldRef="Name"/&gt;
+          &lt;call-param accessType="in"  fieldRef="id"/&gt;
+          &lt;call-param accessType="in"  methodRef="adjustment"/&gt;
+        &lt;/call-params&gt;
+      &lt;/call&gt;
+    &lt;/operations&gt;
+  &lt;/structure&gt;
+&lt;/database&gt;
+   </pre>
+    </p>
+    <p>
+      This sample file defines two structures: <code>AIS Project</code> and
+      <code>AIS Client</code>. We assume here that we have access to two
+      underlying database tables (<code>projects</code> and
+      <code>clients</code>) and these tables contain the columns referenced
+      in our file (<code>sql-field</code> elements). We also assume that
+      the data source for the database is correctly set in the application (see
+      description of AIS.PL Framework).
+    </p>
+    <p>
+      The <code>AIS Project</code> structure has three
+      fields and one of them  - <code>id</code> - is the primary key.
+      This structure also contains three operations:
+      the first is used for getting all
+      <code>Project</code> objects, the second returns objects which
+      have the specified <code>clientId</code> property and
+      the third sets the specified <code>name</code> property
+      on <code>Project</code>s which have
+      the given <code>clientId</code> value.
+      The <code>AIS Client</code> structure has two fields with
+      <code>id</code> field marked as primary key.
+      The <code>AIS Client</code> also contains one operation -
+      a call to stored procedure named "process_client".
+    </p>
+    <p>
+      The following files will be generated:
+      <ul>
+        <li><code>ApplicationDatabase.java</code></li> 
+        <li><code>objects/base/BaseClient.java</code></li> 
+        <li><code>objects/base/BaseProject.java</code></li> 
+        <li><code>dbhandlers/ClientHandler.java</code></li> 
+        <li><code>dbhandlers/ProjectHandler.java</code></li> 
+        <li><code>handlers/ClientHandler.java</code></li> 
+        <li><code>handlers/ProjectHandler.java</code></li> 
+      </ul>
+    </p>
+    <p>
+      The generated <code>ApplicationDatabase</code> class will have the
+      following public methods:
+      <ul>
+        <li><code>public Project selectProject(Integer id)</code></li> 
+        <li><code>public void updateProject(Project object)</code></li> 
+        <li><code>public void insertProject(Project object)</code></li> 
+        <li><code>public void deleteProject(Project object)</code></li> 
+        <li><code>public List selectProjectAllProjects()</code></li> 
+        <li><code>public List selectProjectForClient(Integer clientId)</code></li> 
+        <li><code>public int updateProjectSetNameForClient(String name, Integer clientId)</code></li> 
+        <li><code>public Client selectClient(Integer id)</code></li> 
+        <li><code>public void updateClient(Client object)</code></li> 
+        <li><code>public void insertClient(Client object)</code></li> 
+        <li><code>public void deleteClient(Client object)</code></li> 
+        <li><code>public String callClientProcessClient(Client object, Integer adjustment)</code></li> 
+      </ul>
+      The <code>Project</code> and <code>Client</code> classes should be
+      added by the programmer to the
+      <code>objects</code> directory (package). They must extend
+      <code>BaseProject</code>
+      and <code>BaseClient</code> respectively.
+      Each <code>BaseX</code> class has private properties (as defined in
+      <code>java-field</code> elements)
+      and
+      public <code>get/set</code> methods to access them.
+    </p>
+    <p>
+      The classes in the <code>handlers</code> directory (package) provide some
+      helpful static methods to convert object properties to/from <code>Map</code>.
+      For <code>handlers/ClientHandler.java</code> these methods are as follows:
+      <ul>
+        <li><code>public static Map describe(Client object)</code></li>
+        <li><code>public static void populate(Client object, Map properties)</code></li>
+        <li><code>public static void carefulPopulate(Client object, Map properties)</code></li>
+      </ul>
+      The <code>describe</code> method takes a <code>Client</code> instance and
+      returns a <code>Map</code> with property names as keys and property values as
+      values. The <code>populate</code> method does the opposite - it takes a
+      <code>Client</code> instance, a <code>Map</code> instance and fills
+      the <code>Client</code> with values from the <code>Map</code>.
+      The <code>carefulPopulate</code> does some extra type checking -
+      a property will be filled only if this property and the corresponding object in the
+      <code>Map</code> are of the same class.
+    </p>
+    <p>
+      It is also possible to generate the appropriate <code>structure.xml</code>
+      from an existing database. This is done by invoking <code>dbdescribe</code>
+      script.
+    </p>
+  </section>
+</body>
+</document>
+

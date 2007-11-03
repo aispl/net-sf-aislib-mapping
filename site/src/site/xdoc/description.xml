@@ -1,0 +1,696 @@
+<document>
+  <properties>
+    <title>Database Mapping Tool</title>
+    <author>Milosz Tylenda</author>
+  </properties>
+
+  <body>
+   <section name="Overview">
+    <p>
+      This document describes the AIS.PL database mapping tool (called DB Mapping Tool)
+      - a set of Ant tasks intended to facilitate database access from Java applications.
+    </p>
+   </section>
+
+  <section name="General Configuration">
+    <p>
+      DB Mapping Tool is a set of Ant tasks (and Java classes) that generate specific Java source code.
+      When invoked, they generate classes which handle database access.
+      The DB Mapping Tool classes are packed into
+      <a href="http://repo1.maven.org/maven2/net/sf/aislib/tools/mapping/library/1.0/library-1.0.jar"><code>library-1.0.jar</code></a>.
+      The tool is configured through an XML
+      file (typically called <code>structure.xml</code>). The DTD for the file is available at
+      <a  href="http://www.ais.pl/dtds/mapping_0_4.dtd">http://www.ais.pl/dtds/mapping_0_4.dtd</a>.
+      Public ID for this file is <code>-//AIS.PL//DTD Mapping Description 0.4//EN</code>.
+      Additionally, each Ant task requires some parameters set in the build XML file
+      (e.g. <code>build.xml</code>).
+    </p>
+  </section>
+
+  <section name="Ant Tasks">
+    <p>
+      The following Ant tasks are available:
+      <ul>
+        <li>
+          <code>generateBeans</code> (runs <code>BeanGenerator</code> class).
+        </li>
+        <li>
+          <code>generateHelpers</code> (runs <code>BeanHelperGenerator</code> class).
+        </li>
+        <li>
+          <code>generateDatabase</code> (runs <code>DatabaseGenerator</code> class).
+        </li>
+        <li>
+          <code>generateMapHelpers</code> (runs <code>MapHelperGenerator</code> class).
+        </li>
+      </ul>
+      The first three tasks must be called in order to generate the database related
+      source code.
+      The fourth task may be called optionally to generate additional
+      <code>describe/populate</code> methods.
+      <em>Note:</em> The names of the tasks depend on Ant configuration and
+      are subject to change.
+      In case of problems contact your system administrator.
+    </p>
+    <p>
+      Each of the four Ant tasks requires the following parameters:
+      <ul>
+        <li>
+          <code>destinationDir</code> - directory which will hold the generated source files;
+        </li>
+        <li>
+          <code>mappingFile</code> - path to the <code>structure.xml</code> file (see below);
+        </li>
+        <li>
+          <code>packageName</code> - package name of the application; the generated classes
+          will be placed in sub-packages.
+        </li>
+      </ul>
+      The optional parameters are as follows:
+      <ul>
+        <li>
+          <code>databaseClassName</code> - may be used with <code>generateDatabase</code> task
+          to specify the name of the main class.
+          Defaults to <code>ApplicationDatabase</code>.
+        </li>
+        <li>
+          <code>objectsSubpackage</code> - may be used with all tasks
+          to specify the name of subpackage holding classes which are the
+          counterparts of database records. More precisely, the generated abstract classes will
+          be placed in <code>objectsSubpackage.base</code> subpackage and the programmer
+          will be responsible for providing concrete implementations in
+          <code>objectsSubpackage</code> subpackage. Note, that all tasks must have the
+          same value of this parameter, otherwise the code won't compile.
+          Defaults to <code>objects</code>.
+        </li>
+      </ul>
+    </p>
+    <p>
+      Here is a sample target from <code>build.xml</code> file for the Projector
+      application:
+      <pre>
+  &lt;target name="db"&gt;
+    &lt;property name="src.dir"  value="src/java/pl/aislib/apps/projector"/&gt;
+    &lt;property name="map.file" value="ddl/structure.xml"/&gt;
+    &lt;property name="package"  value="pl.aislib.apps.projector"/&gt;
+    &lt;generateBeans       destinationDir="${src.dir}" mappingFile="${map.file}" packageName="${package}"/&gt;
+    &lt;generateHelpers     destinationDir="${src.dir}" mappingFile="${map.file}" packageName="${package}"/&gt;
+    &lt;generateDatabase    destinationDir="${src.dir}" mappingFile="${map.file}" packageName="${package}"/&gt;
+    &lt;generateMapHelpers  destinationDir="${src.dir}" mappingFile="${map.file}" packageName="${package}"/&gt;
+  &lt;/target&gt;
+      </pre>
+      Now <code>ant db</code> generates suitable source code assuming you want
+      the source code to be placed under <code>src/java/pl/aislib/apps/projector</code>,
+      you have well formed <code>ddl/structure.xml</code> file and your application
+      package is <code>pl.aislib.apps.projector</code>. DB Mapping Tool generates
+      the following directory structure under
+      <code>src/java/pl/aislib/apps/projector</code>:
+      <ul>
+        <li>
+          <code>objects/base</code> - directory containing <code>BaseX</code> classes.
+          These abstract classes are generated by <code>generateBeans</code> task (<code>BeanGenerator</code> class).
+          The corresponding subclasses should be added by the programmer
+          to the <code>objects</code> directory.
+          This directory location (and corresponding Java subpackage) may be changed by using
+          <code>objectsSubpackage</code> parameter.
+        </li>
+        <li>
+          <code>dbhandlers</code> - directory containing classes with static methods defined
+          mainly in <code>operations</code> element (see below).
+          These classes are generated by <code>generateHelpers</code> task (<code>BeanHelperGenerator</code> class).
+        </li>
+        <li>
+          <code>handlers</code> - directory containing classes with static
+          <code>describe/populate</code> methods.
+          These classes are generated by <code>generateMapHelpers</code> task (<code>MapHelperGenerator</code> class).
+        </li>
+        <li>
+          <code>ApplicationDatabase.java</code> - this class, generated by <code>generateDatabase</code> task
+          (<code>DatabaseGenerator</code> class), represents database in
+          the application. Typically this class is extended
+          to provide application-specific methods.
+          The name of this class (and file) may be changed by specifying
+          <code>databaseClassName</code> parameter when invoking
+          <code>generateDatabase</code> task.
+        </li>
+      </ul>
+    </p>
+    <p>
+      Locally, at AIS, we use <code>build_pl.xml</code> and <code>antpl</code> to
+      reflect our local configuration.
+    </p>
+  </section>
+
+  <section name="XML File (structure.xml)">
+    <p>
+      The DTD can be reached at
+      <a href="http://www.ais.pl/dtds/mapping_0_4.dtd">http://www.ais.pl/dtds/mapping_0_4.dtd</a>.
+      <code>structure.xml</code> defines relations between Java classes and
+      database tables/columns. This file may also contain some types of SQL-DML statements.
+    </p>
+    <p>
+      The topmost element in <code>structure.xml</code> is the <code>database</code>
+      element.
+      It can embody one or more <code>structure</code> elements.
+    </p>
+    <subsection name="structure element">
+      <p>
+        Defines mapping between the Java class and the underlying SQL table.
+      </p>
+      <p>
+        Attribute: <code>name</code> - name of structure, required.
+      </p>
+      <h3>sql-table element</h3>
+        <p>
+          The underlying SQL table. Multiple classes (structures) may share the
+          same table. Note that you can use views here if the database engine supports them.
+          This element is obligatory.
+        </p>
+        <p>
+          The attributes control the generation of delete/insert/select/update methods.
+          Delete, select and update methods use primary keys, so if the structure has no
+          primary keys then <code>delete</code>, <code>select</code> and
+          <code>update</code> attributes
+          should be set to <code>false</code>.
+        </p>
+        <p>
+          Attributes:
+          <ul>
+            <li>
+              <code>name</code> - name of SQL table, required.
+            </li>
+            <li>
+              <code>delete</code> - when <code>true</code> delete-related
+              methods will be generated, default <code>true</code>.
+            </li>
+            <li>
+              <code>insert</code> - when <code>true</code> insert-related
+              methods will be generated, default <code>true</code>.
+            </li>
+            <li>
+              <code>select</code> - when <code>true</code> select-related
+              methods will be generated, default <code>true</code>.
+            </li>
+            <li>
+              <code>update</code> - when <code>true</code> update-related
+              methods will be generated, default <code>true</code>.
+            </li>
+          </ul>
+        </p>
+      <h3>java-class element</h3>
+        <p>
+          Defines name of the Java class corresponding to this structure.
+        </p>
+        <p>
+          Attributes:
+          <ul>
+            <li>
+              <code>name</code> - name of Java class, required.
+            </li>
+            <li>
+              <code>propertyChangeSupport</code> -
+              if <code>true</code> then the generated class will support
+              adding and removal of <code>PropertyChangeListener</code>
+              objects
+              (see the dedicated section).
+              Defaults to <code>false</code>.
+            </li>
+          </ul>
+        </p>
+      <h3>fields element</h3>
+        <p>
+          Defines fields shared between an SQL table and the corresponding Java class.
+          Must contain at least one <code>field</code> element.
+          One or more fields can be marked as the primary key. This affects
+          delete, insert and select related-methods.
+        </p>
+        <h4>field element</h4>
+          <p>
+            Defines field shared between SQL column and Java class.
+          </p>
+          <p>
+            Attributes:
+            <ul>
+              <li>
+                <code>name</code> - name of field, required.
+              </li>
+              <li>
+                <code>notNull</code> - currently not used but required
+                (<code>true</code> or <code>false</code>).
+                The future versions may use this attribute - it is recommended to
+                set it to <code>true</code> if the underlying SQL column
+                doesn't allow null values and to set it to <code>false</code>
+                otherwise.
+              </li>
+              <li>
+                <code>primaryKey</code> - if <code>true</code> then
+                field is treated as a (part of) primary key, required.
+              </li>
+            </ul>
+          </p>
+          <h5>sql-field element</h5>
+            <p>
+              Defines the database part of <code>field</code>.
+            </p>
+            <p>
+              Attributes:
+              <ul>
+                <li>
+                  <code>name</code> - name of database column, required.
+                </li>
+                <li>
+                  <code>type</code> - type of database column.
+                  When set to <code>CLOB</code> the corresponding <code>java-field</code>
+                  must have its <code>type</code> attribute set to <code>String</code>.
+                  In such a case the tool will handle mapping between <code>String</code>
+                  class and <code>CLOB</code> column. When set to something other than
+                  <code>CLOB</code> the Tool will ignore it and depend on conversions
+                  done by JDBC driver.
+                  Required attribute.
+                </li>
+                <li>
+                  <code>default</code> - default value of database column, optional.
+                </li>
+                <li>
+                 <code>onInsert</code> - may contain two values:
+                 <code>use</code> or <code>omit</code>.
+                 When set to <code>omit</code> this field will be omitted during
+                 new record insertion. This allows to use things like MySQL's auto_increment
+                 option.
+                 When set to <code>use</code> this field is always inserted.
+                 Defaults to <code>use</code>.
+               </li>
+              </ul>
+            </p>
+          <h5>java-field element</h5>
+            <p>
+              Defines the Java part of <code>field</code>.
+            </p>
+            <p>
+              Attributes:
+              <ul>
+                <li>
+                  <code>name</code> - name of Java variable, required.
+                </li>
+                <li>
+                  <code>type</code> - class name of Java variable, required.
+                  The following classes are accepted:
+                  <code>BigDecimal</code>, <code>Double</code>,
+                  <code>Float</code>,
+                  <code>Integer</code>, <code>Long</code>,
+                  <code>String</code>, and <code>Timestamp</code>.
+                  The <code>Array</code> class from <code>java.sql</code>
+                  package is partially supported.
+                  The <code>Blob</code> class from <code>java.sql</code>
+                  package is partially supported.
+                </li>
+                <li>
+                  <code>default</code> - default value of Java variable.
+                  The variable will be set to this value during object creation.
+                  Optional attribute.
+                </li>
+              </ul>
+            </p>
+      <h3>operations element</h3>
+        <p>
+          Within this element it is possible to define some types of DML statements and
+          the corresponding Java method signatures.
+          You don't define here statements that operate on primary key
+          (e.g. a query returning objects for structure's primary key) -
+          these are generated automatically.
+        </p>
+        <p>
+          This element is optional and if defined,
+          it may contain any combination of <code>aggregate</code>, <code>call</code>, <code>count</code>,
+          <code>delete</code>, <code>select</code>
+          and <code>update</code> elements.
+          Each of these elements consists of <code>sql-query</code> and
+          <code>java-method</code> sub-elements.
+          <code>sql-query</code> controls the DML string.
+          <code>java-method</code> controls (partially) the signature of Java method
+          associated with the DML string.
+          Additionally, a <code>call</code> element requires a <code>call-params</code>
+          sub-element.
+        </p>
+        <h4>aggregate element</h4>
+          <p>
+            Defines <code>SELECT</code> statement which should return only one column.
+          </p>
+          <p>
+            Attribute: <code>multipleRows</code> - defines the possibility of returning multiple
+            values by the generated method.
+            May be either <code>true</code> or <code>false</code> (default).
+          </p>
+          <h5>multipleRows = false</h5>
+            <p>
+              Defines <code>SELECT</code> statement which should return only one column and one row as a result.
+              The generated DML string looks like this:
+              <code>SELECT [value of columns attribute in sql-query] FROM [sql-table]</code>.
+              <code>DISTINCT</code>, <code>WHERE</code>, <code>GROUP BY</code>,
+              <code>HAVING</code> and <code>ORDER BY</code>
+              clauses may be used.
+              The <code>[sql-table]</code> is controlled by
+              <code>from</code> attribute of <code>sql-query</code>
+              element if such an attribute is defined.
+              The generated Java method returns the value located in the first column of first row in the result.
+              The return type of the Java method is determined in <code>java-method</code> element.
+              The purpose of this element is to generate queries like
+              <code>SELECT MAX(amount) FROM table</code>. It may also be used to return
+              sequence values: <code>SELECT my_seq.nextval FROM DUAL</code>.
+            </p>
+          <h5>multipleRows = true</h5>
+            <p>
+              Defines <code>SELECT</code> statement which should return only one column and
+              any number of rows as a result.
+              The generated DML string looks like this:
+              <code>SELECT [value of columns attribute in sql-query] FROM [sql-table]</code>.
+              <code>DISTINCT</code>, <code>WHERE</code>, <code>GROUP BY</code>,
+              <code>HAVING</code> and <code>ORDER BY</code>
+              clauses may be used.
+              The <code>[sql-table]</code> is controlled by
+              <code>from</code> attribute of <code>sql-query</code>
+              element.
+              The generated Java method returns the values located in the first column of each row in the result.
+              The return type of the Java method is <code>List</code>.
+              The type of its elements is determined in <code>java-method</code> element.
+              The purpose of this element is to generate queries like
+              <code>SELECT DISTINCT years FROM billingrollup</code>.
+            </p>
+        <h4>call element</h4>
+          <p>
+            Defines query which is executed by using a
+            <code>CallableStatement</code> object.
+            The query may be a stored procedure call or a
+            procedure body.
+            The <code>sql-query</code> sub-element must
+            contain <code>body</code> attribute and no other attributes,
+            it doesn't support <code>'??'</code> markers.
+            The value of <code>body</code> is directly passed to
+            <code>Connection.prepareCall</code> method.
+            The return type of the generated Java method
+            depends on <code>call-params</code> sub-element which is
+            a required sub-element.
+            The generated method always have at least one parameter -
+            a parameter of type defined in <code>java-class</code>.
+            The <code>call-params</code> and
+            <code>call-param</code> sub-elements define
+            input and output parameters to pass to the stored
+            procedure.
+          </p>
+        <h4>count element</h4>
+          <p>
+            Defines query returning number of rows in a table.
+            The generated DML string looks like this:
+            <code>SELECT COUNT(*) FROM [sql-table]</code>.
+            A <code>WHERE</code> clause may be used.
+            The <code>[sql-table]</code> is controlled by
+            <code>from</code> attribute of <code>sql-query</code>
+            element if such an attribute is defined.
+            The generated Java method returns number of counted rows.
+          </p>
+        <h4>delete element</h4>
+          <p>
+            Defines <code>DELETE</code> statement.
+            The generated DML string looks like this:
+            <code>DELETE FROM [sql-table]</code>.
+            A <code>WHERE</code> clause may be used.
+            The generated Java method returns number of deleted rows.
+          </p>
+        <h4>select element</h4>
+          <p>
+            Defines <code>SELECT</code> statement which is used to create one or more
+            <code>java-class</code> instances.
+            The generated DML string looks like this:
+            <code>SELECT [fields] FROM [sql-table]</code>.
+            <code>DISTINCT</code>, <code>WHERE</code>, <code>GROUP BY</code>,
+            <code>HAVING</code> and <code>ORDER BY</code>
+            clauses may be used.
+            The <code>[sql-table]</code> is controlled by
+            <code>from</code> attribute of <code>sql-query</code>
+            element if such an attribute is defined.
+            The <code>[fields]</code> may be overriden by specifying <code>columns</code>
+            attribute of <code>sql-query</code> element.
+          </p>
+          <p>
+            Attribute: <code>multipleRows</code> - defines the possibility of returning multiple
+            values by the generated method.
+            May be either <code>true</code> (default) or <code>false</code>.
+          </p>
+          <h5>multipleRows = false</h5>
+            <p>
+              The generated Java method returns a <code>java-class</code> instance or <code>null</code>.
+            </p>
+          <h5>multipleRows = true</h5>
+            <p>
+              The generated Java method returns a <code>List</code> of <code>java-class</code> instances.
+            </p>
+        <h4>update element</h4>
+          <p>
+            Defines <code>UPDATE</code> statement.
+            The generated DML string looks like this:
+            <code>UPDATE [sql-table] SET [value of set attribute]</code>.
+            A <code>WHERE</code> clause may be used.
+            The generated Java method returns number of updated rows.
+          </p>
+          <h5>sql-query element</h5>
+            <p>
+              Controls the DML statement. Not all attributes are valid in every context,
+              i.e. in every sub-element of <code>operations</code>.
+              Attribute values are used to build DML statement executed by SQL engine.
+              Attribute values may contain parameter markers.
+              <code>'?'</code> markers denote parameters filled in by <code>PreparedStatement</code>
+              implementation in a common way.
+              <code>'??'</code> markers denote parameters which are filled in before constructing
+              a <code>PreparedStatement</code> object, no escaping nor quoting is applied.
+              The values for question marks should be provided by
+              the corresponding Java method.
+            </p>
+            <p>
+              Attributes:
+              <ul>
+                <li>
+                  <code>distinct</code> - when set to <code>true</code>,
+                  the query will return only distinct records. It simply adds
+                  a <code>DISTINCT</code> keyword to the query string.
+                  Defaults to <code>false</code> and valid only in <code>select</code>
+                  and <code>aggregate</code> elements.
+                </li>
+                <li>
+                  <code>from</code> - when defined, its value will be pasted just after
+                  <code>FROM</code> keyword of the DML string.
+                  This attribute is optional and valid only in
+                  <code>aggregate</code>, <code>count</code> and <code>select</code> elements.
+                  If omitted, the query will use name of table defined in
+                  <code>sql-table</code> element.
+                </li>
+                <li>
+                  <code>columns</code> - when defined, its value will be pasted between
+                  <code>SELECT</code> and <code>FROM</code> keywords of the DML string.
+                  This attribute is valid only in
+                  <code>aggregate</code> (required) and <code>select</code> (optional) elements.
+                </li>
+                <li>
+                  <code>where</code> - when defined, its value will be pasted into
+                  <code>WHERE</code> part of the DML string.
+                  This attribute is optional and valid in every sub-element of
+                  <code>operations</code> with the exception of <code>call</code>.
+                </li>
+                <li>
+                  <code>group-by</code> - when defined, its value will be pasted into
+                  <code>GROUP BY</code> part of DML string.
+                  This attribute is optional and valid only in
+                  <code>select</code>
+                  and <code>aggregate</code> elements.
+                </li>
+                <li>
+                  <code>having</code> - when defined, its value will be pasted into
+                  <code>HAVING</code> part of DML string.
+                  This attribute is optional and valid only in
+                  <code>select</code>
+                  and <code>aggregate</code> elements.
+                </li>
+                <li>
+                  <code>order-by</code> - when defined, its value will be pasted into
+                  <code>ORDER BY</code> part of DML string.
+                  This attribute is optional and valid only in
+                  <code>select</code>
+                  and <code>aggregate</code> elements.
+                </li>
+                <li>
+                  <code>other</code> - when defined, its value will be
+                  appended at the end of the DML string.
+                  This attribute is optional and valid in every sub-element of
+                  <code>operations</code> with the exception of <code>call</code>.
+                </li>
+                <li>
+                  <code>set</code> - when defined, its value will be pasted into
+                  <code>SET</code> part of the DML string (UPDATE statement).
+                  This attribute is valid (and required) only in
+                  <code>update</code> element.
+                </li>
+                <li>
+                  <code>body</code> -
+                  defines the whole body of query.
+                  This attribute is valid (and required) only in
+                  <code>call</code> element.
+                </li>
+              </ul>
+            </p>
+          <h5>java-method and java-param elements</h5>
+            <p>
+              Defines name of the method, return type and the list of method parameters.
+              These parameters are used
+              to substitute question marks in attribute values of <code>sql-query</code>
+              element.
+              The method will execute a <code>PreparedStatement</code> or
+              <code>CallableStatement</code>
+              which will be constructed using
+              attributes of <code>sql-query</code> element.
+            </p>
+            <p>
+              Attributes of java-method:
+              <ul>
+                <li>
+                  <code>name</code> - defines part of the name of the method. The generated method
+                  will be named <code>[operation type][java-class name][name]</code>,
+                  where <code>[operation type]</code> will be <code>count</code>,
+                  <code>delete</code>, etc., depending on the context.
+                  Required attribute.
+                </li>
+                <li>
+                  <code>returnType</code> - defines return type of the method
+                  or type of <code>List</code> elements if the method returns a <code>List</code>.
+                  The allowed values for this attribute
+                  are the same as for <code>type</code> attribute
+                  in <code>java-field</code> element.
+                  This attribute is valid (and required) only in
+                  <code>aggregate</code> element.
+                </li>
+              </ul>
+            </p>
+            <p>
+              <code>java-method</code> may contain <code>java-param</code>
+              elements. Each <code>java-param</code> must contain <code>name</code>
+              and <code>type</code> attributes. The allowed values for
+              <code>type</code> are the same as for <code>type</code> attribute
+              in <code>java-field</code> element.
+            </p>
+          <h5>call-params and call-param elements</h5>
+            <p>
+              <code>call-params</code> is used only as a sub-element of <code>call</code>.
+              It has no attributes and contains zero or more <code>call-param</code> sub-elements.
+              Each <code>call-param</code> defines a parameter to pass to
+              or get from a stored procedure call.
+              Each <code>call-param</code> must have a corresponding question mark
+              in <code>body</code> attribute of <code>sql-query</code> element.
+              There are three types of parameters: in, out and inout
+              (see <code>accessType</code> attribute).
+              The values for in and inout parameters may come from method parameters
+              defined in <code>java-method</code>
+              (see <code>methodRef</code> attribute) or from fields of object
+              (see <code>java-class</code> and <code>fields</code> elements)
+              which always figures in the generated method's signature
+              (see <code>fieldRef</code> attribute).
+            </p>
+            <p>
+              Attributes of <code>call-param</code>:
+              <ul>
+                <li>
+                  <code>accessType</code> -
+                  may be one of <code>in</code>, <code>out</code> and <code>inout</code>.
+                  This defines a type of stored procedure parameter.
+                  At most one <code>call-param</code> can have <code>accessType</code>
+                  of value <code>out</code> or <code>inout</code> - that means
+                  it is impossible to get more than one output parameter from
+                  a stored procedure.
+                  If no out or inout parameter is defined, the generated Java method
+                  will be of return type <code>void</code>, otherwise the return type
+                  is determined by <code>type</code> attribute (out parameter) or
+                  <code>fieldRef</code> or <code>methodRef</code> attributes
+                  (in and inout parameters).
+                  Required attribute, defaults to <code>in</code>.
+                </li>
+                <li>
+                  <code>fieldRef</code> -
+                  must contain a value of <code>name</code> attribute of an existing
+                  <code>field</code> element. It binds the <code>call-param</code>
+                  with a field of object.
+                  Each in and inout parameter must define either <code>fieldRef</code>
+                  or <code>methodRef</code> and no <code>type</code> attribute.
+                  The type of parameter is inherited from the corresponding
+                  <code>java-field</code> element and determines the return type
+                  of the generated Java method (if applies to an inout parameter).
+                </li>
+                <li>
+                  <code>methodRef</code> -
+                  must contain a value of <code>name</code> attribute of an existing
+                  <code>java-param</code> sub-element of <code>java-method</code>.
+                  It binds the <code>call-param</code>
+                  with a <code>java-param</code>.
+                  Each in and inout parameter must define either <code>fieldRef</code>
+                  or <code>methodRef</code> and no <code>type</code> attribute.
+                  The type of parameter is inherited from the corresponding
+                  <code>java-param</code> element and determines the return type
+                  of the generated Java method (if applies to an inout parameter).
+                </li>
+                <li>
+                  <code>type</code> -
+                  defines type of an out parameter and return type of the generated
+                  method.
+                  The allowed values for
+                  <code>type</code> are the same as for <code>type</code> attribute
+                  in <code>java-field</code> element.
+                  This attribute is allowed and required only for out parameters.
+                </li>
+              </ul>
+            </p>
+    </subsection>
+  </section>
+
+  <section name="Exception Logging">
+    <p>
+      The <code>ApplicationDatabase</code> class has a <code>protected
+      </code> method called <code>exceptionCaught</code>. This method is
+      invoked whenever an <code>SQLException</code> is thrown in any of the methods
+      in <code>ApplicationDatabase</code>. This method has the following parameters:
+      <ul>
+        <li>
+          <code>SQLException</code> - the <code>SQLException</code> thrown from
+          any other method in <code>ApplicationDatabase</code>.
+        </li>
+        <li>
+          <code>String</code> - the name of the method where <code>SQLException
+          </code> has been thrown.
+        </li>
+        <li>
+          <code>Map</code> - the <code>Map</code> containing names and values
+          of arguments passed to the method where <code>SQLException</code> has been
+          thrown.
+        </li>
+      </ul>
+      The generated implementation of this method logs all the passed arguments on
+      <code>FATAL</code> level. This behaviour may be changed by overloading this
+      method.
+    </p>
+  </section>
+  <section name="PropertyChange Support in BaseX Classes">
+    <p>
+      It is possible to generate BaseX classes which support adding of
+      <code>java.beans.PropertyChangeListener</code> objects. To create such
+      a class, a <code>propertyChangeSupport</code> attribute of
+      <code>java-class</code> element must be set to <code>true</code>.
+      When this is done, a set of additional methods will be generated to
+      support adding and removal of listeners and firing
+      <code>PropertyChangeEvent</code>s.
+      This behaviour is reached by internally using a
+      <code>java.beans.PropertyChangeSupport</code> object, so the generated
+      methods are tightly coupled with these from <code>PropertyChangeSupport</code>
+      class. A BaseX class offers a possibility to
+      register a listener which will be notified if
+      a property of that BaseX class' changes its value. For more info see JavaDoc of
+      <code>PropertyChangeSupport</code> and comments generated along with
+      methods.
+    </p>
+  </section>
+</body>
+</document>

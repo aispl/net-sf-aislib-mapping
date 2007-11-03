@@ -6,4 +6,22 @@
 
 Simple OR Mapping
 
-  content goes here
+  AIS.PL database mapping tool (called Simple DB Mapping)
+  is a set of Ant tasks intended to facilitate database
+  access from Java applications.
+
+  In addition to Ant task, dedicated plugin for Maven2 is also available.
+
+  Project has been started in 2002 as a set of Ant task with a plugin for Maven1.
+  Compiled binaries and documentation for this version is available on
+  {{{http://software.ais.pl/mapping}AIS.PL site}}.
+
+  In 2007 source code has been imported into {{{http://aislib.svn.sourceforge.net/viewvc/aislib/Java/tools/mapping/}SVN}}
+  on SourceForge.
+
+  Version 1.0 of Ant tasks and Maven2 plugin has been released in October, 2007 and published
+  to Maven2 repository, under <<<net.sf.aislib.tools.mapping>>> group.
+
+  <<Warning>> Documentation is under review process.
+
+  For detailed description see {{{description.html}this document}}.
