@@ -9,6 +9,7 @@
     <item name="Home"        href="/index.html"/>
     <item name="Description" href="/description.html"/>
     <item name="Example"     href="/example.html"/>
+    <item name="Maven2 plugin" href="/plugin-usage.html"/>
   </menu>
   <menu name="Released">
     <item name="Maven2 plugin 1.0" href="/modules/plugin-m2-1.0/plugin-info.html"/>

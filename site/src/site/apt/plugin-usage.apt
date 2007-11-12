@@ -1,0 +1,108 @@
+ ------
+ Using Maven2 plugin
+ ------
+ ------
+
+Using Maven2 plugin
+
+ Maven2 plugin for Simple OR Mapping allows user to generate code as a part of build process
+ controlled by Maven2.
+
+ Plugin is configured to be executed in <<<generate-sources>>> phase.
+
+* Generating code as a part of build process.
+
+ By default sources are being generated into <<<${project.build.directory}/generated-sources/ais-mapping>>>
+ (in default setup it points to <<<target/generated-sources/ais-mapping>>>)
+ directory. Plugin also adds this directory to list of directories containing source code, so this code
+ is available for further processing (compilation). <<<${project.build.directory}>>> should not be stored
+ in CVS/SVN.
+
+ Minimal <<<pom.xml>>> should contains:
+
++-----------------+
+<project>
+  [...]
+  <build>
+    <plugins>
+      [...]
+      <plugin>
+       <artifactId>plugin-m2</artifactId>
+       <groupId>net.sf.aislib.tools.mapping</groupId>
+       <version>1.0</version>
+       <executions>
+         <execution>
+           <goals>
+             <goal>database</goal>
+             <goal>beans</goal>
+             <goal>map-handlers</goal>
+             <goal>db-handlers</goal>
+           </goals>
+           <configuration>
+             <packageName>root.package.name</packageName>
+             <mappingFile>path/to/structure.xml</mappingFile>
+           </configuration>
+         </execution>
+       </executions>
+      </plugin>
+      [...]
+    </plugins>
+  </build>
+  [...]
+</project>
++-----------------+
+
+ where <<<root.package.name>>> is a package name that should be used as a main package name
+ for generated classes (generators adds a subpackage names to root name) and
+ <<<path/to/structure.xml>>> is a location of file containing mapping definition.
+
+* Storing generated code in source repository
+
+ Sometimes it's necessary to store generated code in source repository (CVS/SVN).
+ In such a case there're two options
+ * Generating code during every build
+ * Generating code as needed
+ Storing generated code in source repository is not a recommended practice because
+ it's a redundancy to have both source file for generation and a result of generation
+ in source repository. But it's sometimes needed, especially if Maven2 it not the only
+ one tool used to build a project (i.e. project may also be build using separated
+ Ant script).
+
+** Generate code during every build
+
+ For generating code during every build plugin needs to be configured to put generated files
+ into main project directory. So <<<outputDirectory>>> for plugin must be defined as follows:
+
++-----------------+
+<project>
+  [...]
+  <build>
+    <plugins>
+      [...]
+      <plugin>
+       <artifactId>plugin-m2</artifactId>
+       <groupId>net.sf.aislib.tools.mapping</groupId>
+       <version>1.0</version>
+       <executions>
+         <execution>
+           <goals>
+             <goal>database</goal>
+             <goal>beans</goal>
+             <goal>map-handlers</goal>
+             <goal>db-handlers</goal>
+           </goals>
+           <configuration>
+             <packageName>root.package.name</packageName>
+             <mappingFile>path/to/structure.xml</mappingFile>
+             <outputDirectory>${project.build.sourceDirectory}</outputDirectory>
+           </configuration>
+         </execution>
+       </executions>
+      </plugin>
+      [...]
+    </plugins>
+  </build>
+  [...]
+</project>
++-----------------+
+
