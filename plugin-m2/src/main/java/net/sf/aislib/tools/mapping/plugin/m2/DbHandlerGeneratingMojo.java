@@ -4,10 +4,10 @@ import net.sf.aislib.tools.mapping.library.Generator;
 import net.sf.aislib.tools.mapping.library.generators.BeanHelperGenerator;
 
 /**
+ * Generate <code>dbhandlers</code> classes.
+ *
  * @goal db-handlers
- *
  * @phase generate-sources
- *
  * @author pikus
  */
 public class DbHandlerGeneratingMojo extends AbstractGeneratingMojo {

@@ -4,10 +4,10 @@ import net.sf.aislib.tools.mapping.library.Generator;
 import net.sf.aislib.tools.mapping.library.generators.DatabaseGenerator;
 
 /**
+ * Generate <code>Database</code> class.
+ *
  * @goal database
- *
  * @phase generate-sources
- *
  * @author pikus
  */
 public class DatabaseGeneratingMojo extends AbstractGeneratingMojo {

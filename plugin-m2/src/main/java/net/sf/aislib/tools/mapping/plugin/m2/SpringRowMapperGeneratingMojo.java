@@ -4,10 +4,10 @@ import net.sf.aislib.tools.mapping.library.Generator;
 import net.sf.aislib.tools.mapping.library.generators.SpringRowMapperGenerator;
 
 /**
+ * Generate <code>springrowmapper</code> classes.
+ *
  * @goal row-mapper
- *
  * @phase generate-sources
- *
  * @author Pawel Chmielewski
  */
 public class SpringRowMapperGeneratingMojo extends AbstractGeneratingMojo {

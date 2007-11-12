@@ -10,28 +10,40 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 import org.apache.tools.ant.util.StringUtils;
 
+/**
+ * Holds base set of properties and invokes generator specified by subclass.
+ *
+ * @author pikus
+ */
 public abstract class AbstractGeneratingMojo extends AbstractMojo {
 
   /**
+   * Output directory for generated source files.
+   *
    * @parameter expression="${project.build.directory}/generated-sources/ais-mapping"
    */
   private File outputDirectory;
 
   /**
+   * File containing definition of structures.
+   *
    * @parameter
    * @required
    */
   private File mappingFile;
 
   /**
+   * Root package name for generated source files.
+   *
    * @parameter
    * @required
    */
   private String packageName;
 
   /**
-   * @parameter expression="${project}"
+   * Maven2 project.
    *
+   * @parameter expression="${project}"
    * @required
    */
   private MavenProject project;
@@ -44,6 +56,7 @@ public abstract class AbstractGeneratingMojo extends AbstractMojo {
   private boolean aislibDependent = false;
 
   /**
+   * Define, if code with generics should be generated.
    * @parameter
    */
   private boolean useGenerics = true;
@@ -102,5 +115,10 @@ public abstract class AbstractGeneratingMojo extends AbstractMojo {
     }
   }
 
+  /**
+   * Creates instance of {@link Generator} that will be used for code generation.
+   *
+   * @return instance of {@link Generator}.
+   */
   protected abstract Generator createGenerator();
 }

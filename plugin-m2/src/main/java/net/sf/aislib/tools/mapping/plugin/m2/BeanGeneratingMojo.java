@@ -4,10 +4,10 @@ import net.sf.aislib.tools.mapping.library.Generator;
 import net.sf.aislib.tools.mapping.library.generators.BeanGenerator;
 
 /**
+ * Generate <code>beans</code> classes.
+ *
  * @goal beans
- *
  * @phase generate-sources
- *
  * @author pikus
  */
 public class BeanGeneratingMojo extends AbstractGeneratingMojo {
