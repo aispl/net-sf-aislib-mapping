@@ -12,10 +12,11 @@
     <item name="Maven2 plugin" href="/plugin-usage.html"/>
   </menu>
   <menu name="Released">
+    <item name="Library 1.0"       href="/modules/library-1.0/apidocs/index.html"/>
     <item name="Maven2 plugin 1.0" href="/modules/plugin-m2-1.0/plugin-info.html"/>
   </menu>
   <menu name="Snapshots">
-    <item name="Library 1.1" href="/modules/library-1.1-SNAPSHOT/index.html"/>
+    <item name="Library 1.1" href="/modules/library-1.1-SNAPSHOT/apidocs/index.html"/>
     <item name="Maven2 plugin 1.1" href="/modules/plugin-m2-1.1-SNAPSHOT/plugin-info.html"/>
   </menu>
 </body>

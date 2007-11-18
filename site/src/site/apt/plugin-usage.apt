@@ -10,8 +10,8 @@ Using Maven2 plugin
 
  Plugin is configured to be executed in <<<generate-sources>>> phase.
 
- For list of goals and their properties see list of goals: {{{/modules/plugin-m2-1.0/plugin-info.html}version 1.0}}
- or {{{/modules/plugin-m2-1.1-SNAPSHOT/plugin-info.html}version 1.1-SNAPSHOT}}.
+ For list of goals and their properties see list of goals: {{{./modules/plugin-m2-1.0/plugin-info.html}version 1.0}}
+ or {{{./modules/plugin-m2-1.1-SNAPSHOT/plugin-info.html}version 1.1-SNAPSHOT}}.
 
 * Generating code as a part of build process.
 
@@ -108,3 +108,47 @@ Using Maven2 plugin
   [...]
 </project>
 +-----------------+
+
+** Generate code as needed
+
+ For generating code on user's request plugin needs to be configured as a part of profile.
+ Also plugin needs to be configured to put generated files into main project directory.
+
++-----------------+
+<project>
+  [...]
+  <profiles>
+    <profile>
+      <id>regenerate</id>
+      <build>
+        <plugins>
+        [...]
+        <plugin>
+          <artifactId>plugin-m2</artifactId>
+          <groupId>net.sf.aislib.tools.mapping</groupId>
+         <version>1.0</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>database</goal>
+                <goal>beans</goal>
+                <goal>map-handlers</goal>
+                <goal>db-handlers</goal>
+              </goals>
+              <configuration>
+                <packageName>root.package.name</packageName>
+                <mappingFile>path/to/structure.xml</mappingFile>
+                <outputDirectory>${project.build.sourceDirectory}</outputDirectory>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        [...]
+      </plugins>
+    </profile>
+  </profiles>
+  [...]
+</project>
++-----------------+
+
+  and Maven2 must be invoked with defined profile: <<<mvn -Pregenerate package>>>.
