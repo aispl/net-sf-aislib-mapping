@@ -22,6 +22,4 @@ Simple OR Mapping
   Version 1.0 of Ant tasks and Maven2 plugin has been released in October, 2007 and published
   to Maven2 repository, under <<<net.sf.aislib.tools.mapping>>> group.
 
-  <<Warning>> Documentation is under review process.
-
   For detailed description see {{{description.html}this document}}.

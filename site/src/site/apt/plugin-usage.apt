@@ -10,6 +10,9 @@ Using Maven2 plugin
 
  Plugin is configured to be executed in <<<generate-sources>>> phase.
 
+ For list of goals and their properties see list of goals: {{{/modules/plugin-m2-1.0/plugin-info.html}version 1.0}}
+ or {{{/modules/plugin-m2-1.1-SNAPSHOT/plugin-info.html}version 1.1-SNAPSHOT}}.
+
 * Generating code as a part of build process.
 
  By default sources are being generated into <<<${project.build.directory}/generated-sources/ais-mapping>>>
@@ -105,4 +108,3 @@ Using Maven2 plugin
   [...]
 </project>
 +-----------------+
-
