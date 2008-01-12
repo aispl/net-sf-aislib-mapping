@@ -549,9 +549,8 @@ public class DatabaseGenerator extends Generator {
       writer.write("   * - (argument name, argument value) pairs\n");
       writer.write("   */\n");
       writer.write("  protected void exceptionCaught(SQLException sqle, String methodName, Map methodArgs) {\n");
-      writer.write("    String id = \"[\" + (System.currentTimeMillis() / 1000) + \"] \";\n");
-      writer.write("    StringBuffer message = new StringBuffer(\"\");\n");
-      writer.write("    message.append(\"SQLException caught in \" + methodName + \" method\\n\");\n");
+      writer.write("    StringBuffer message = new StringBuffer();\n");
+      writer.write("    message.append(\"[\" + (System.currentTimeMillis() / 1000) + \"] SQLException caught in \" + methodName + \" method \");\n");
       writer.write("    message.append(\"Method arguments:\\n\");\n");
       writer.write("    for (Iterator iter = methodArgs.entrySet().iterator() ; iter.hasNext(); ) {\n");
       writer.write("      Map.Entry entry = (Map.Entry) iter.next();\n");
@@ -559,11 +558,10 @@ public class DatabaseGenerator extends Generator {
       writer.write("      String value = stringValue(entry.getValue());\n");
       writer.write("      message.append(name + \"=\" + value + \"\\n\");\n");
       writer.write("    }\n");
-      writer.write("    log.fatal(id + \"The caught SQLException:\", sqle);\n");
+      writer.write("    log.fatal(message, sqle);\n");
       writer.write("    while ((sqle = sqle.getNextException()) != null) {\n");
-      writer.write("      log.fatal(id + \"Next SQLException:\", sqle);\n");
+      writer.write("      log.fatal(message + \"Next SQLException:\", sqle);\n");
       writer.write("    }\n");
-      writer.write("    log.fatal(id + message.toString());\n");
       writer.write("  }\n");
       writer.write("\n");
       writer.write("  /**\n");
