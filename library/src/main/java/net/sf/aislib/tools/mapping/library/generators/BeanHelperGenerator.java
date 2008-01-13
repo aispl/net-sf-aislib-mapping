@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Iterator;
 import java.util.List;
@@ -28,8 +30,6 @@ import net.sf.aislib.tools.mapping.library.structure.SqlQuery;
 import net.sf.aislib.tools.mapping.library.structure.SqlTable;
 import net.sf.aislib.tools.mapping.library.structure.Structure;
 import net.sf.aislib.tools.mapping.library.structure.Update;
-
-import org.apache.commons.io.IOUtils;
 
 
 /**
@@ -170,7 +170,7 @@ public class BeanHelperGenerator extends Generator {
     initWriter("EnhancedStatement.java");
     InputStream classSourceStream = getClass().getClassLoader().getResourceAsStream(
       "net/sf/aislib/tools/mapping/library/resources/EnhancedStatement.tpl");
-    String classSourceContent = IOUtils.toString(classSourceStream, "ISO-8859-2");
+    String classSourceContent = readToString(classSourceStream, "ISO-8859-2");
     writer.write("package " + packageName + "." + dbHandlersSubpackage + ";\n");
     writer.write(classSourceContent);
     closeWriter();
@@ -979,4 +979,14 @@ public class BeanHelperGenerator extends Generator {
     return result.toString();
   }
 
+  private String readToString(InputStream input, String encoding) throws IOException {
+    StringWriter sw = new StringWriter();
+    InputStreamReader in = new InputStreamReader(input, encoding);
+    char[] buffer = new char[1024];
+    int n = 0;
+    while (-1 != (n = in.read(buffer))) {
+       sw.write(buffer, 0, n);
+    }
+    return sw.toString();
+  }
 }
