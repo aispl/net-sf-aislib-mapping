@@ -182,12 +182,20 @@ public class StructureParser {
         return;
       }
       if (s2.equals("java-field")) {
+        boolean sensitive = false;
+        if (attrs.getValue("sensitive") != null) {
+          sensitive = Boolean.valueOf(attrs.getValue("sensitive")).booleanValue();
+        }
+        if (attrs.getValue("toString") != null) {
+          throw new SAXException("Attribute 'toString' is deprecated, use 'sensitive' attribute and v0.7 of DTD instead");
+        }
+
         javaField = new JavaField(
           attrs.getValue("name"),
           attrs.getValue("type"),
           attrs.getValue("default"),
-          attrs.getValue("toString") == null ? true : Boolean.valueOf(attrs.getValue("toString")).booleanValue()
-            );
+          sensitive
+        );
         if (currentOperation == READ) {
           read.addJavaField(javaField);
         } else if (currentOperation == WRITE) {
@@ -303,7 +311,8 @@ public class StructureParser {
         return;
       }
       if (s2.equals("java-param")) {
-        javaParam = new JavaParam(attrs.getValue("name"), attrs.getValue("type"));
+        boolean sensitive =  attrs.getValue("sensitive") == null ? false : Boolean.valueOf(attrs.getValue("sensitive")).booleanValue();
+        javaParam = new JavaParam(attrs.getValue("name"), attrs.getValue("type"), sensitive);
         javaMethod.addJavaParam(javaParam);
         return;
       }
@@ -402,6 +411,15 @@ public class StructureParser {
         if (stream != null) {
           InputSource result = new InputSource(stream);
           result.setSystemId(getClass().getClassLoader().getResource("net/sf/aislib/tools/mapping/library/resources/mapping_0_6.dtd").toString());
+          return result;
+        }
+      }
+      if (publicId.equals("-//AIS.PL//DTD Mapping Description 0.7//EN") &&
+          systemId.equals("http://www.ais.pl/dtds/mapping_0_7.dtd")) {
+        InputStream stream = getClass().getClassLoader().getResourceAsStream("net/sf/aislib/tools/mapping/library/resources/mapping_0_7.dtd");
+        if (stream != null) {
+          InputSource result = new InputSource(stream);
+          result.setSystemId(getClass().getClassLoader().getResource("net/sf/aislib/tools/mapping/library/resources/mapping_0_7.dtd").toString());
           return result;
         }
       }

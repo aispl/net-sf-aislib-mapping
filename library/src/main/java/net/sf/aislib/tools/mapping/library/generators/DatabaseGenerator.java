@@ -427,7 +427,11 @@ public class DatabaseGenerator extends Generator {
       sb.append("      Map args = new HashMap();\n");
       for (int i = 0, size = javaParamList.size() ; i < size ; i++) {
         JavaParam javaParam = (JavaParam) javaParamList.get(i);
-        sb.append("      args.put(\"" + javaParam.getName() + "\", " + javaParam.getName() + ");\n");
+        if (javaParam.isSensitive()) {
+          sb.append("      args.put(\"" + javaParam.getName() + "\", " + HIDDEN_TO_STRING_VALUE + ");\n");
+        } else {
+          sb.append("      args.put(\"" + javaParam.getName() + "\", " + javaParam.getName() + ");\n");
+        }
       }
       sb.append("      exceptionCaught(sqle, \"" + fullMethodName + "\", args);\n");
       return sb.toString();

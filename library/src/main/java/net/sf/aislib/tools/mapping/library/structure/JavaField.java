@@ -5,13 +5,13 @@ public class JavaField {
   private String name;
   private String type;
   private String defaultt;
-  private boolean toString = true;
+  private boolean sensitive = false;
 
-  public JavaField(String name, String type, String defaultt, boolean toString) {
+  public JavaField(String name, String type, String defaultt, boolean sensitive) {
     this.name = name;
     this.type = type;
     this.defaultt = defaultt;
-    this.toString = toString;
+    this.sensitive = sensitive;
   }
 
   public String getName() {
@@ -26,7 +26,7 @@ public class JavaField {
     }
     return defaultt;
   }
-  public boolean isToString() {
-    return toString;
+  public boolean isSensitive() {
+    return sensitive;
   }
 }

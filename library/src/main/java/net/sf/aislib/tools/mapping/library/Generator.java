@@ -17,6 +17,8 @@ import org.apache.tools.ant.Task;
  */
 public abstract class Generator extends Task {
 
+  protected static final String HIDDEN_TO_STRING_VALUE = "\"** HIDDEN **\"";
+
   // Fields
 
   protected Database database;

@@ -54,7 +54,7 @@ public class JavaMethod {
    */
   public List createExtendedJavaParamList(JavaClass javaClass) {
     List result = new ArrayList(javaParamList.size() + 1);
-    JavaParam object = new JavaParam("object", javaClass.getName());
+    JavaParam object = new JavaParam("object", javaClass.getName(), false);
     result.add(object);
     result.addAll(javaParamList);
     return result;

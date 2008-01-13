@@ -1,0 +1,122 @@
+<!--
+  -
+  - "-//AIS.PL//DTD Mapping Description 0.7//EN"
+  - "http://www.ais.pl/dtds/mapping_0_7.dtd"
+  -
+  - base 0.7 version created on 2008.01.12
+  -
+  - Changes compared to 0.6:
+  - 2008.01.12, pikus
+                'sensitive' attribute for 'java-param' added
+                'sensitive' attribute for 'java-field' added
+  -             'toString' attribute for 'java-field' removed
+                   in favour of new 'sensitive' attribute
+  - Changes compared to 0.5:
+  - 2007.03.13, chmielu@ais.pl:
+  -             'toString' attribute for 'java-field' added
+  -
+  -->
+
+<!ENTITY % allowed_java_types "BigDecimal|Double|Float|Integer|Long|String|Timestamp|Array|Blob">
+<!ENTITY % boolean_value "false|true">
+<!ENTITY % access_types  "in|out|inout">
+
+<!ELEMENT database (structure+)>
+
+<!ELEMENT structure (sql-table, java-class, fields, operations?)>
+
+<!ATTLIST structure
+          name      CDATA #REQUIRED>
+
+<!ELEMENT sql-table EMPTY>
+<!ATTLIST sql-table
+          name      CDATA #REQUIRED
+          insert    (%boolean_value;) 'true'
+          select    (%boolean_value;) 'true'
+          delete    (%boolean_value;) 'true'
+          update    (%boolean_value;) 'true'>
+
+<!ELEMENT java-class EMPTY>
+<!ATTLIST java-class
+          name                  CDATA #REQUIRED
+          propertyChangeSupport (%boolean_value;) 'false'>
+
+<!ELEMENT fields (field+)>
+
+<!ELEMENT field (sql-field, java-field)>
+<!ATTLIST field
+          name       CDATA #REQUIRED
+          notNull    (%boolean_value;) #REQUIRED
+          primaryKey (%boolean_value;) #REQUIRED>
+
+<!ELEMENT sql-field (read?, write?)>
+<!ATTLIST sql-field
+          default   CDATA #IMPLIED
+          name      CDATA #REQUIRED
+          type      CDATA #REQUIRED
+          onInsert  (use|omit) 'use'>
+
+<!ELEMENT read (java-field+)>
+<!ATTLIST read
+          function      CDATA #REQUIRED>
+
+<!ELEMENT write (java-field+)>
+<!ATTLIST write
+          function      CDATA #REQUIRED>
+
+<!ELEMENT java-field EMPTY>
+<!ATTLIST java-field
+          default    CDATA #IMPLIED
+          name       CDATA #REQUIRED
+          type       (%allowed_java_types;) #REQUIRED
+          sensitive  (%boolean_value;) 'false' >
+
+<!ELEMENT operations (aggregate | call | count | delete | select | update)*>
+
+<!ELEMENT aggregate  (sql-query, java-method)>
+<!ATTLIST aggregate
+          multipleRows (%boolean_value;) 'false'>
+
+<!ELEMENT call   (sql-query, java-method, call-params)>
+<!ELEMENT count  (sql-query, java-method)>
+<!ELEMENT delete (sql-query, java-method)>
+<!ELEMENT select (sql-query, java-method)>
+<!ATTLIST select
+          multipleRows (%boolean_value;) 'true'>
+
+<!ELEMENT update (sql-query, java-method)>
+
+<!ELEMENT sql-query EMPTY>
+<!ATTLIST sql-query
+          distinct  (%boolean_value;) 'false'
+          columns   CDATA #IMPLIED
+          from      CDATA #IMPLIED
+          where     CDATA #IMPLIED
+          group-by  CDATA #IMPLIED
+          having    CDATA #IMPLIED
+          order-by  CDATA #IMPLIED
+          other     CDATA #IMPLIED
+          set       CDATA #IMPLIED
+          body      CDATA #IMPLIED>
+
+<!ELEMENT java-method (java-param*)>
+<!ATTLIST java-method
+          name        CDATA #REQUIRED
+          returnType  CDATA #IMPLIED>
+
+<!ELEMENT java-param EMPTY>
+<!ATTLIST java-param
+          name       CDATA #REQUIRED
+          type       (%allowed_java_types;) #REQUIRED
+          sensitive  (%boolean_value;) 'false'
+          >
+
+<!ELEMENT call-params (call-param*)>
+
+<!ELEMENT call-param EMPTY>
+<!ATTLIST call-param
+          accessType (%access_types;)       'in'
+          fieldRef   CDATA                  #IMPLIED
+          methodRef  CDATA                  #IMPLIED
+          type       (%allowed_java_types;) #IMPLIED>
+

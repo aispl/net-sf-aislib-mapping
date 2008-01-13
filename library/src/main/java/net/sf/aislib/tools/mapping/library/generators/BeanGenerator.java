@@ -28,7 +28,6 @@ public class BeanGenerator extends Generator {
 
   /** Mapping: short name to full class name. */
   private static final Map LONG_CLASS_NAMES = new HashMap(4);
-  private static final String HIDDEN_TO_STRING_VALUE = "\"-- HIDDEN --\"";
 
   static {
     LONG_CLASS_NAMES.put("BigDecimal", "java.math.BigDecimal");
@@ -229,7 +228,7 @@ public class BeanGenerator extends Generator {
       String name         = javaField.getName();
       String fieldName    = field.getName();
       write(" +\n");
-      write("      \"" + fieldName + ": \" + " + (javaField.isToString() ? name : HIDDEN_TO_STRING_VALUE));
+      write("      \"" + fieldName + ": \" + " + (javaField.isSensitive() ? HIDDEN_TO_STRING_VALUE : name));
       if (i < (fieldsSize - 1)) {
         write(" + \", \"");
       }

@@ -67,7 +67,7 @@ public class CallParam {
       JavaField javaField = fields.findFieldByName(getFieldRef()).getJavaField();
       String name = "object." + Utils.getter(javaField.getName());  // Used in Utils.generatePstmSet..
       String type = javaField.getType();
-      return new JavaParam(name, type);
+      return new JavaParam(name, type, javaField.isSensitive());
     }
     if (hasMethodRef()) {
       JavaParam javaParam = javaMethod.findJavaParamByName(getMethodRef());
