@@ -12,6 +12,8 @@
     <item name="Maven2 plugin" href="/plugin-usage.html"/>
   </menu>
   <menu name="Released">
+    <item name="Library 1.1"       href="/modules/library-1.1/apidocs/index.html"/>
+    <item name="Maven2 plugin 1.1" href="/modules/plugin-m2-1.1/plugin-info.html"/>
     <item name="Library 1.0"       href="/modules/library-1.0/apidocs/index.html"/>
     <item name="Maven2 plugin 1.0" href="/modules/plugin-m2-1.0/plugin-info.html"/>
   </menu>

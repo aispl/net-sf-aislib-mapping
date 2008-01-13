@@ -9,8 +9,8 @@
      <p>
       Here is a sample <code>structure.xml</code> file:
       <pre>
-&lt;!DOCTYPE database PUBLIC "-//AIS.PL//DTD Mapping Description 0.4//EN"
-                          "http://www.ais.pl/dtds/mapping_0_4.dtd"&gt;
+&lt;!DOCTYPE database PUBLIC "-//AIS.PL//DTD Mapping Description 0.7//EN"
+                          "http://www.ais.pl/dtds/mapping_0_7.dtd"&gt;
 
 &lt;database&gt;
   &lt;structure name="AIS Project"&gt;
@@ -50,7 +50,7 @@
       &lt;/update&gt;
     &lt;/operations&gt;
   &lt;/structure&gt;
-  
+
   &lt;structure name="AIS Client"&gt;
     &lt;sql-table name="clients"/&gt;
     &lt;java-class name="Client"/&gt;
@@ -109,31 +109,31 @@
     <p>
       The following files will be generated:
       <ul>
-        <li><code>ApplicationDatabase.java</code></li> 
-        <li><code>objects/base/BaseClient.java</code></li> 
-        <li><code>objects/base/BaseProject.java</code></li> 
-        <li><code>dbhandlers/ClientHandler.java</code></li> 
-        <li><code>dbhandlers/ProjectHandler.java</code></li> 
-        <li><code>handlers/ClientHandler.java</code></li> 
-        <li><code>handlers/ProjectHandler.java</code></li> 
+        <li><code>ApplicationDatabase.java</code></li>
+        <li><code>objects/base/BaseClient.java</code></li>
+        <li><code>objects/base/BaseProject.java</code></li>
+        <li><code>dbhandlers/ClientHandler.java</code></li>
+        <li><code>dbhandlers/ProjectHandler.java</code></li>
+        <li><code>handlers/ClientHandler.java</code></li>
+        <li><code>handlers/ProjectHandler.java</code></li>
       </ul>
     </p>
     <p>
       The generated <code>ApplicationDatabase</code> class will have the
       following public methods:
       <ul>
-        <li><code>public Project selectProject(Integer id)</code></li> 
-        <li><code>public void updateProject(Project object)</code></li> 
-        <li><code>public void insertProject(Project object)</code></li> 
-        <li><code>public void deleteProject(Project object)</code></li> 
-        <li><code>public List selectProjectAllProjects()</code></li> 
-        <li><code>public List selectProjectForClient(Integer clientId)</code></li> 
-        <li><code>public int updateProjectSetNameForClient(String name, Integer clientId)</code></li> 
-        <li><code>public Client selectClient(Integer id)</code></li> 
-        <li><code>public void updateClient(Client object)</code></li> 
-        <li><code>public void insertClient(Client object)</code></li> 
-        <li><code>public void deleteClient(Client object)</code></li> 
-        <li><code>public String callClientProcessClient(Client object, Integer adjustment)</code></li> 
+        <li><code>public Project selectProject(Integer id)</code></li>
+        <li><code>public void updateProject(Project object)</code></li>
+        <li><code>public void insertProject(Project object)</code></li>
+        <li><code>public void deleteProject(Project object)</code></li>
+        <li><code>public List selectProjectAllProjects()</code></li>
+        <li><code>public List selectProjectForClient(Integer clientId)</code></li>
+        <li><code>public int updateProjectSetNameForClient(String name, Integer clientId)</code></li>
+        <li><code>public Client selectClient(Integer id)</code></li>
+        <li><code>public void updateClient(Client object)</code></li>
+        <li><code>public void insertClient(Client object)</code></li>
+        <li><code>public void deleteClient(Client object)</code></li>
+        <li><code>public String callClientProcessClient(Client object, Integer adjustment)</code></li>
       </ul>
       The <code>Project</code> and <code>Client</code> classes should be
       added by the programmer to the

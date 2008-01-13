@@ -10,8 +10,7 @@ Using Maven2 plugin
 
  Plugin is configured to be executed in <<<generate-sources>>> phase.
 
- For list of goals and their properties see list of goals: {{{./modules/plugin-m2-1.0/plugin-info.html}version 1.0}}
- or {{{./modules/plugin-m2-1.1-SNAPSHOT/plugin-info.html}version 1.1-SNAPSHOT}}.
+ For list of goals and their properties see list of goals: {{{./modules/plugin-m2-1.1/plugin-info.html}version 1.1}}.
 
 * Generating code as a part of build process.
 
@@ -32,7 +31,7 @@ Using Maven2 plugin
       <plugin>
        <artifactId>plugin-m2</artifactId>
        <groupId>net.sf.aislib.tools.mapping</groupId>
-       <version>1.0</version>
+       <version>1.1</version>
        <executions>
          <execution>
            <goals>
@@ -85,7 +84,7 @@ Using Maven2 plugin
       <plugin>
        <artifactId>plugin-m2</artifactId>
        <groupId>net.sf.aislib.tools.mapping</groupId>
-       <version>1.0</version>
+       <version>1.1</version>
        <executions>
          <execution>
            <goals>
@@ -126,7 +125,7 @@ Using Maven2 plugin
         <plugin>
           <artifactId>plugin-m2</artifactId>
           <groupId>net.sf.aislib.tools.mapping</groupId>
-         <version>1.0</version>
+         <version>1.1</version>
           <executions>
             <execution>
               <goals>
