@@ -23,8 +23,13 @@ Simple OR Mapping
   to Maven2 repository, under <<<net.sf.aislib.tools.mapping>>> group.
 
   Changes in 1.1 including:
-* reduced number of <<<log.fatal>>> calls for reporting exceptions
-* added <<<sensitive>>> attribute to <<<java-field>>> and <<<java-parameter>>> elements
+
+  * reduced number of <<<log.fatal>>> calls for reporting exceptions
+
+  * added <<<sensitive>>> attribute to <<<java-field>>> and <<<java-parameter>>> elements
+
+  []
+
 
   Version 1.0 of Ant tasks and Maven2 plugin has been released in October, 2007 and published
   to Maven2 repository, under <<<net.sf.aislib.tools.mapping>>> group.
