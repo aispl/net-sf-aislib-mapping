@@ -17,11 +17,11 @@
       DB Mapping Tool is a set of Ant tasks (and Java classes) that generate specific Java source code.
       When invoked, they generate classes which handle database access.
       The DB Mapping Tool classes are packed into
-      <a href="http://repo1.maven.org/maven2/net/sf/aislib/tools/mapping/library/1.0/library-1.0.jar"><code>library-1.0.jar</code></a>.
+      <a href="http://repo1.maven.org/maven2/net/sf/aislib/tools/mapping/library/1.1/library-1.1.jar"><code>library-1.1.jar</code></a>.
       The tool is configured through an XML
       file (typically called <code>structure.xml</code>). The DTD for the file is available at
-      <a  href="http://www.ais.pl/dtds/mapping_0_4.dtd">http://www.ais.pl/dtds/mapping_0_4.dtd</a>.
-      Public ID for this file is <code>-//AIS.PL//DTD Mapping Description 0.4//EN</code>.
+      <a  href="http://www.ais.pl/dtds/mapping_0_7.dtd">http://www.ais.pl/dtds/mapping_0_7.dtd</a>.
+      Public ID for this file is <code>-//AIS.PL//DTD Mapping Description 0.7//EN</code>.
       Additionally, each Ant task requires some parameters set in the build XML file
       (e.g. <code>build.xml</code>).
     </p>
@@ -32,16 +32,16 @@
       The following Ant tasks are available:
       <ul>
         <li>
-          <code>generateBeans</code> (runs <code>BeanGenerator</code> class).
+          <code>generateBeans</code> (runs <code>net.sf.aislib.tools.mapping.library.generators.BeanGenerator</code> class).
         </li>
         <li>
-          <code>generateHelpers</code> (runs <code>BeanHelperGenerator</code> class).
+          <code>generateHelpers</code> (runs <code>net.sf.aislib.tools.mapping.library.generators.BeanHelperGenerator</code> class).
         </li>
         <li>
-          <code>generateDatabase</code> (runs <code>DatabaseGenerator</code> class).
+          <code>generateDatabase</code> (runs <code>net.sf.aislib.tools.mapping.library.generators.DatabaseGenerator</code> class).
         </li>
         <li>
-          <code>generateMapHelpers</code> (runs <code>MapHelperGenerator</code> class).
+          <code>generateMapHelpers</code> (runs <code>net.sf.aislib.tools.mapping.library.generators.MapHelperGenerator</code> class).
         </li>
       </ul>
       The first three tasks must be called in order to generate the database related
@@ -86,8 +86,7 @@
       </ul>
     </p>
     <p>
-      Here is a sample target from <code>build.xml</code> file for the Projector
-      application:
+      Here is a sample target:
       <pre>
   &lt;target name="db"&gt;
     &lt;property name="src.dir"  value="src/java/pl/aislib/apps/projector"/&gt;
@@ -102,9 +101,9 @@
       Now <code>ant db</code> generates suitable source code assuming you want
       the source code to be placed under <code>src/java/pl/aislib/apps/projector</code>,
       you have well formed <code>ddl/structure.xml</code> file and your application
-      package is <code>pl.aislib.apps.projector</code>. DB Mapping Tool generates
+      package is <code>path/to/package</code>. DB Mapping Tool generates
       the following directory structure under
-      <code>src/java/pl/aislib/apps/projector</code>:
+      <code>src/java/path/to/package</code>:
       <ul>
         <li>
           <code>objects/base</code> - directory containing <code>BaseX</code> classes.
@@ -135,16 +134,12 @@
         </li>
       </ul>
     </p>
-    <p>
-      Locally, at AIS, we use <code>build_pl.xml</code> and <code>antpl</code> to
-      reflect our local configuration.
-    </p>
   </section>
 
   <section name="XML File (structure.xml)">
     <p>
       The DTD can be reached at
-      <a href="http://www.ais.pl/dtds/mapping_0_4.dtd">http://www.ais.pl/dtds/mapping_0_4.dtd</a>.
+      <a href="http://www.ais.pl/dtds/mapping_0_7.dtd">http://www.ais.pl/dtds/mapping_0_7.dtd</a>.
       <code>structure.xml</code> defines relations between Java classes and
       database tables/columns. This file may also contain some types of SQL-DML statements.
     </p>
@@ -308,6 +303,11 @@
                   <code>default</code> - default value of Java variable.
                   The variable will be set to this value during object creation.
                   Optional attribute.
+                </li>
+                <li>
+                  <code>sensitive</code> - boolean field, defines if value of field may be
+                  printed out in logs in case of failures. Default to <code>false</code>
+                  so by default all values are printed out. Introduced in version 1.1.
                 </li>
               </ul>
             </p>
