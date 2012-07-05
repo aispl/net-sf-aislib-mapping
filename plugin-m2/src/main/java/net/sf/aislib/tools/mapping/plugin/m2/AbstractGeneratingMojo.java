@@ -7,6 +7,7 @@ import net.sf.aislib.tools.mapping.library.Generator;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.tools.ant.util.StringUtils;
 
@@ -19,74 +20,62 @@ public abstract class AbstractGeneratingMojo extends AbstractMojo {
 
   /**
    * Output directory for generated source files.
-   *
-   * @parameter expression="${project.build.directory}/generated-sources/ais-mapping"
    */
+  @Parameter(defaultValue = "${project.build.directory}/generated-sources/ais-mapping")
   private File outputDirectory;
 
   /**
    * File containing definition of structures.
-   *
-   * @parameter
-   * @required
    */
+  @Parameter(required = true)
   private File mappingFile;
 
   /**
    * Root package name for generated source files.
-   *
-   * @parameter
-   * @required
    */
+  @Parameter(required = true)
   private String packageName;
 
   /**
    * Maven2 project.
-   *
-   * @parameter expression="${project}"
-   * @required
    */
+  @Parameter(defaultValue = "${project}", required = true)
   private MavenProject project;
 
   /**
    * Define, if generated code should depend on aislib classes.
-   *
-   * @parameter
    */
+  @Parameter
   private boolean aislibDependent = false;
 
   /**
    * Define, if code with generics should be generated.
-   * @parameter
    */
+  @Parameter
   private boolean useGenerics = true;
 
   /**
    * Name of subpackage for db handler classes.
-   *
-   * @parameter
    */
+  @Parameter
   private String dbHandlersSubpackage = "dbhandlers";
 
   /**
    * Name of subpackage for map handler classes.
-   *
-   * @parameter
    */
+  @Parameter
   private String mapHandlersSubpackage = "handlers";
 
   /**
    * Name of subpackage for bean classes.
-   *
-   * @parameter
    */
+  @Parameter
   private String objectsSubpackage = "objects";
 
   /**
    * Name of subpackage for spring row mappers classes.
-   *
-   * @parameter
    */
+  @Parameter
   private String rowMappersSubpackage = "dao.jdbc.mappers";
 
   public void execute() throws MojoExecutionException, MojoFailureException {
