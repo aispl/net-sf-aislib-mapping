@@ -7,7 +7,6 @@
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>net.sf.aislib.tools.mapping</groupId>
   <artifactId>library</artifactId>
   <packaging>jar</packaging>
 
