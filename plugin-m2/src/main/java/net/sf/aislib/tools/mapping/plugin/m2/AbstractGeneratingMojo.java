@@ -7,9 +7,11 @@ import net.sf.aislib.tools.mapping.library.Generator;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.tools.ant.util.StringUtils;
+import org.sonatype.plexus.build.incremental.BuildContext;
 
 /**
  * Holds base set of properties and invokes generator specified by subclass.
@@ -17,6 +19,9 @@ import org.apache.tools.ant.util.StringUtils;
  * @author pikus
  */
 public abstract class AbstractGeneratingMojo extends AbstractMojo {
+
+  @Component
+  private BuildContext buildContext;
 
   /**
    * Output directory for generated source files.
@@ -88,6 +93,9 @@ public abstract class AbstractGeneratingMojo extends AbstractMojo {
         destinationDir.mkdirs();
       }
       project.addCompileSourceRoot(outputDirectory.getAbsolutePath());
+      if (!buildContext.hasDelta(mappingFile)) {
+        return;
+      }
       Generator generator = createGenerator();
       generator.setAislibDependent(aislibDependent);
       generator.setDestinationDir(destinationDir);
@@ -99,6 +107,7 @@ public abstract class AbstractGeneratingMojo extends AbstractMojo {
       generator.setPackageName(packageName);
       generator.setRowMappersSubpackage(rowMappersSubpackage);
       generator.execute();
+      buildContext.refresh(destinationDir);
     } catch (Exception e) {
       throw new MojoExecutionException(e.getMessage(), e);
     }
