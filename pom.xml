@@ -10,7 +10,7 @@
     <groupId>net.sf.aislib.tools.mapping</groupId>
     <artifactId>mapping-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.3</version>
+    <version>1.4-SNAPSHOT</version>
 
     <name>Simple OR java code generator</name>
     <description>Simple OR java code generator - parent</description>
