@@ -11,16 +11,9 @@
     <packaging>maven-plugin</packaging>
 
     <name>Simple OR java code generator - Maven2 plugin</name>
-    <description>
-    Simple OR java code generator - Maven2 plugin
-  </description>
+    <description>Simple OR java code generator - Maven2 plugin</description>
     <url>http://aislib.sf.net/Java/tools/mapping</url>
 
-    <licenses>
-        <license>
-            <url>http://software.ais.pl/licenses/aislib-LICENSE.txt</url>
-        </license>
-    </licenses>
 
     <build>
         <plugins>
@@ -47,6 +40,7 @@
         <dependency>
             <groupId>net.sf.aislib.tools.mapping</groupId>
             <artifactId>library</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.sonatype.plexus</groupId>

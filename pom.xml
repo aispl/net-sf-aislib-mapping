@@ -1,113 +1,73 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>net.sf.aislib.tools.mapping</groupId>
-  <artifactId>mapping-parent</artifactId>
-  <packaging>pom</packaging>
-  <version>1.3-SNAPSHOT</version>
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
 
-  <name>Simple OR java code generator</name>
-  <description>Simple OR java code generator - parent</description>
-  <url>http://aislib.sf.net/Java/tools/mapping</url>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>net.sf.aislib.tools.mapping</groupId>
+    <artifactId>mapping-parent</artifactId>
+    <packaging>pom</packaging>
+    <version>1.3-SNAPSHOT</version>
 
-  <organization>
-    <name>AIS.PL</name>
-    <url>http://www.ais.pl</url>
-  </organization>
+    <name>Simple OR java code generator</name>
+    <description>Simple OR java code generator - parent</description>
+    <url>http://aislib.sf.net/Java/tools/mapping</url>
 
-  <scm>
-    <connection>scm:svn:https://aislib.svn.sourceforge.net/svnroot/aislib/Java/tools/mapping/trunk</connection>
-  </scm>
+    <organization>
+        <name>AIS.PL</name>
+        <url>http://www.ais.pl</url>
+    </organization>
 
-  <licenses>
-    <license>
-      <url>http://software.ais.pl/licenses/aislib-LICENSE.txt</url>
-    </license>
-  </licenses>
+    <scm>
+        <connection>scm:git:git@github.com:aispl/net-sf-aislib-mapping.git</connection>
+        <developerConnection>scm:git:git@github.com:aispl/net-sf-aislib-mapping.git</developerConnection>
+        <url>git@github.com:aispl/net-sf-aislib-mapping.git</url>
+    </scm>
 
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-release-plugin</artifactId>
-        <configuration>
-          <tagBase>
-            https://aislib.svn.sourceforge.net/svnroot/aislib/Java/tools/mapping/tags/
-          </tagBase>
-          <goals>deploy</goals>
-        </configuration>
-      </plugin>
-    </plugins>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <artifactId>maven-site-plugin</artifactId>
-          <version>2.0-beta-5</version>
-          <configuration>
-            <stagingSiteURL>scp://shell.sf.net/home/groups/a/ai/aislib/htdocs/Java/tools/mapping/modules/${artifactId}-${version}</stagingSiteURL>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
+    <modules>
+        <module>library</module>
+        <module>plugin-m2</module>
+    </modules>
 
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>net.sf.aislib.tools.mapping</groupId>
-        <artifactId>library</artifactId>
-        <version>${pom.version}</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-
-  <modules>
-    <module>library</module>
-    <module>plugin-m2</module>
-  </modules>
-
-  <developers>
-    <developer>
-      <name>Andrzej Luszczyk</name>
-    </developer>
-    <developer>
-      <name>Tomasz Pik</name>
-    </developer>
-    <developer>
-      <name>Anna Grzebieniak</name>
-    </developer>
-    <developer>
-      <name>Pawel Chmielewski</name>
-    </developer>
-    <developer>
-      <name>Michal Jastak</name>
-    </developer>
-    <developer>
-      <name>Milosz Tylenda</name>
-    </developer>
-    <developer>
-      <name>Wojciech Swiatek</name>
-    </developer>
-  </developers>
-
-  <distributionManagement>
-    <repository>
-      <id>aislib-sf-prod</id>
-      <url>
-        scp://shell.sf.net/home/groups/a/ai/aislib/htdocs/repos/prod
-      </url>
-    </repository>
-    <snapshotRepository>
-      <id>aislib-sf-dev</id>
-      <url>
-        scp://shell.sf.net/home/groups/a/ai/aislib/htdocs/repos/dev
-      </url>
-    </snapshotRepository>
-    <site>
-      <id>aislib-sf-site</id>
-      <url>
-        scp://use_site_stage-deploy__for_deploying
-      </url>
-    </site>
-  </distributionManagement>
+    <developers>
+        <developer>
+            <name>Andrzej Luszczyk</name>
+        </developer>
+        <developer>
+            <name>Tomasz Pik</name>
+        </developer>
+        <developer>
+            <name>Anna Hynek</name>
+        </developer>
+        <developer>
+            <name>Pawel Chmielewski</name>
+        </developer>
+        <developer>
+            <name>Michal Jastak</name>
+        </developer>
+        <developer>
+            <name>Milosz Tylenda</name>
+            <roles>
+              <role>emeritus</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Wojciech Swiatek</name>
+            <roles>
+              <role>emeritus</role>
+            </roles>
+        </developer>
+    </developers>
 </project>
